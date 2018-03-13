@@ -734,7 +734,7 @@ static int kDragCenterContext;
 
 - (void)mapView:(AIRMap *)mapView didUpdateUserLocation:(MKUserLocation *)location
 {
-    if (mapView.followsUserHeading && mapView.followUserLocation) {
+    if (mapView.followUserHeading && mapView.followUserLocation) {
         if ([mapView userTrackingMode] == MKUserTrackingModeFollowWithHeading)
             return;
         [mapView setUserTrackingMode: MKUserTrackingModeFollowWithHeading animated: YES];

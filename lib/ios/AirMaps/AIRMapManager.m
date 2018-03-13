@@ -735,9 +735,14 @@ static int kDragCenterContext;
 - (void)mapView:(AIRMap *)mapView didUpdateUserLocation:(MKUserLocation *)location
 {
     if (mapView.followUserHeading && mapView.followUserLocation) {
+        static int reentrant = 0;
         if ([mapView userTrackingMode] == MKUserTrackingModeFollowWithHeading)
             return;
-        [mapView setUserTrackingMode: MKUserTrackingModeFollowWithHeading animated: YES];
+        if (!reentrant) {
+            reentrant = 1;
+            [mapView setUserTrackingMode: MKUserTrackingModeFollowWithHeading animated: YES];
+            reentrant = 0;
+        }
     } else if (mapView.followUserLocation) {
         MKCoordinateRegion region;
         region.span.latitudeDelta = AIRMapDefaultSpan;

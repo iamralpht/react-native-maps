@@ -240,6 +240,11 @@ const NSInteger AIRMapMaxZoomLevel = 20;
     _followUserLocation = followsUserLocation;
 }
 
+- (void)setFollowsUserHeading:(BOOL)followsUserHeading
+{
+    _followUserHeading = followsUserHeading;
+}
+
 - (void)setHandlePanDrag:(BOOL)handleMapDrag {
     for (UIGestureRecognizer *recognizer in [self gestureRecognizers]) {
         if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {

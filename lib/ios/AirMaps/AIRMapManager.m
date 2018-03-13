@@ -69,6 +69,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_VIEW_PROPERTY(showsUserLocation, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(userLocationAnnotationTitle, NSString)
 RCT_EXPORT_VIEW_PROPERTY(followsUserLocation, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(followsUserHeading, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsPointsOfInterest, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsBuildings, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showsCompass, BOOL)
@@ -733,7 +734,11 @@ static int kDragCenterContext;
 
 - (void)mapView:(AIRMap *)mapView didUpdateUserLocation:(MKUserLocation *)location
 {
-    if (mapView.followUserLocation) {
+    if (mapView.followsUserHeading && mapView.followUserLocation) {
+        if ([mapView userTrackingMode] == MKUserTrackingModeFollowWithHeading)
+            return;
+        [mapView setUserTrackingMode: MKUserTrackingModeFollowWithHeading animated: YES];
+    } else if (mapView.followUserLocation) {
         MKCoordinateRegion region;
         region.span.latitudeDelta = AIRMapDefaultSpan;
         region.span.longitudeDelta = AIRMapDefaultSpan;
